@@ -30,3 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VIAL_KEYBOARD_UID {0x6C, 0x99, 0x82, 0xA9, 0x32, 0xAC, 0x25, 0xD7}
 #define VIAL_UNLOCK_COMBO_ROWS { 0, 5 } // esc
 #define VIAL_UNLOCK_COMBO_COLS { 0, 0 } // 5
+
+#define RGBLIGHT_LED_COUNT 68
+// this seems to be sourced/generated from keyboards.json
+/* #define RGBLED_SPLIT [0, 60] */
+
+#define RGBLIGHT_DEFAULT_HUE 127
+#define RGBLIGHT_DEFAULT_SAT 0
