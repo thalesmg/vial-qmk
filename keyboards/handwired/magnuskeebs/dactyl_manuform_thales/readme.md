@@ -66,6 +66,9 @@ Compile:
 
     qmk compile -kb handwired/magnuskeebs/dactyl_manuform_thales -km default
 
+    # vial
+    make handwired/magnuskeebs/dactyl_manuform_thales:vial
+
 Note: `qmk compile -j 0` can hang under QMK-MSYS on Windows; omit `-j 0` or pass a real job
 count. See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools)
 and [make instructions](https://docs.qmk.fm/#/getting_started_make_guide). New to QMK? Start
