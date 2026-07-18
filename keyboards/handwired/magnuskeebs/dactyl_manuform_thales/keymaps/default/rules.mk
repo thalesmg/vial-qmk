@@ -14,6 +14,3 @@ OLED_ENABLE = no           # OLED display
 SERIAL_DRIVER = vendor
 BOOTLOADER = rp2040
 SPLIT_KEYBOARD = yes
-
-VIA_ENABLE = yes
-VIAL_ENABLE = yes
