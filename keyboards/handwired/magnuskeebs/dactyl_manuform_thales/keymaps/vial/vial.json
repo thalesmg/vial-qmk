@@ -1,5 +1,5 @@
 {
-  "lighting": "none",
+  "lighting": "qmk_rgblight",
   "matrix": {
     "rows": 12,
     "cols": 6

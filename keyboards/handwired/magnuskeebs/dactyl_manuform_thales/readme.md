@@ -74,29 +74,71 @@ count. See the [build environment setup](https://docs.qmk.fm/#/getting_started_b
 and [make instructions](https://docs.qmk.fm/#/getting_started_make_guide). New to QMK? Start
 with the [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
 
-A prebuilt image is bundled here as `dactyl_manuform_thales_default.uf2`, so the board can be
-re-flashed without recompiling. Update it whenever the keymap changes:
+There is also a `:default` (non-Vial) build. You do **not** need it to build `:vial` -- the two
+are independent. It is only a diagnostic: if `:vial` ever fails to compile, try
 
-    qmk compile -kb handwired/magnuskeebs/dactyl_manuform_thales -km default
-    cp handwired_magnuskeebs_dactyl_manuform_thales_default.uf2 \
-       keyboards/handwired/magnuskeebs/dactyl_manuform_thales/dactyl_manuform_thales_default.uf2
+    make handwired/magnuskeebs/dactyl_manuform_thales:default
+
+If `:default` builds but `:vial` does not, the problem is in the Vial-specific files
+(`keymaps/vial/`) rather than the shared keyboard definition.
+
+Two prebuilt images are bundled here so the board can be re-flashed without recompiling:
+
+* `dactyl_manuform_thales_vial.uf2` -- the Vial firmware (configure at <https://vial.rocks>).
+* `dactyl_manuform_thales_default.uf2` -- the previous VIA/default firmware, kept as a
+  recovery image.
+
+Refresh the Vial image after changing the keymap:
+
+    make handwired/magnuskeebs/dactyl_manuform_thales:vial
+    cp handwired_magnuskeebs_dactyl_manuform_thales_vial.uf2 \
+       keyboards/handwired/magnuskeebs/dactyl_manuform_thales/dactyl_manuform_thales_vial.uf2
 
 ## Flashing
 
-Both halves must be flashed with matching firmware. For each half:
+The **same** `dactyl_manuform_thales_vial.uf2` goes on **both** halves. Flash them **one at a
+time**. Handedness is decided at runtime by which half is plugged into the computer
+(`SPLIT_USB_DETECT`), so there is no "left" or "right" firmware -- the file is identical.
+(In normal use, always connect the **left** half to the computer.)
 
-1. **Enter the bootloader:** press and hold **BOOT**, tap **RESET**, then release **BOOT**.
-   The RP2040 mounts as a USB drive (RPI-RP2).
-2. **Drag** `dactyl_manuform_thales_default.uf2` onto that drive. The board reboots into the
-   new firmware automatically.
+For **each** half, in order:
 
-(`qmk flash` also works if you prefer, but the drag-and-drop of the bundled `.uf2` needs no
-toolchain.)
+1. **Unplug the cable between the two halves.** Flash a half only while it is isolated.
+2. **Hold the inner-top key on that half, and -- while still holding it -- plug that half into
+   the computer** (external USB-C port, not the inter-half connector). The key to hold is the
+   top-row key closest to the center of the board:
+   * Left half: hold **`5`**.
+   * Right half: hold **`6`**.
+   (This is Bootmagic Lite: it checks that key at power-on and jumps straight to the
+   bootloader -- no need to open the case.)
+3. A USB drive named **`RPI-RP2`** appears. Release the key and **drag
+   `dactyl_manuform_thales_vial.uf2` onto it.** The half reboots automatically when the copy
+   finishes.
+4. Unplug it, then repeat steps 2-3 for the **other** half.
+5. Reconnect the inter-half cable and plug the keyboard into the computer (left half) as usual.
+
+**To go back** to the old firmware, do the same steps with
+`dactyl_manuform_thales_default.uf2`.
+
+> Note: the Bootmagic-Lite step is compile-verified but has not been tested on this physical
+> board. If the `RPI-RP2` drive does not appear, use the fallback below.
+
+### Fallback: physical buttons
+
+If Bootmagic does not work, use the BOOT/RESET buttons on the isolated half: press and hold
+**BOOT**, tap **RESET**, then release **BOOT**; the `RPI-RP2` drive appears. These buttons are
+on the RP2040 Zero boards, which are inside the case -- reaching them can require opening
+it. They are the guaranteed recovery method. Just be careful with the wiring. Using just one
+finger to press both is a good technique: press the **BOOT** button (the left one), rock your
+finger to the right in a way you keep pressing **BOOT** but also tap **RESET**, then release
+**BOOT**.
 
 ## Bootloader
 
-Enter the bootloader in 2 ways:
-
-* **Buttons (reliable):** press and hold **BOOT**, tap **RESET**, then release **BOOT**.
-* **Keycode:** `QK_BOOT` lives on the `_RAISE` layer -- hold `MO(2)` (right thumb) and press
-  the outer top-row key on either half.
+* **Bootmagic Lite (no case opening, works on an isolated half):** hold the half's inner-top
+  key (`5` on the left, `6` on the right) while plugging that half into USB.
+* **Buttons (guaranteed fallback):** hold **BOOT**, tap **RESET**, release **BOOT**.
+* **Keycode (only with both halves connected and working normally):** `QK_BOOT` lives on the
+  `_RAISE` layer -- hold `MO(2)` (right thumb) and press the outer top-row key. Note this
+  triggers on the USB-connected (left) half, so it is not a way to flash the right half by
+  itself.

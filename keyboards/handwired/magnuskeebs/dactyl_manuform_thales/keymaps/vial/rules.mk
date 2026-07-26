@@ -17,6 +17,4 @@ SPLIT_KEYBOARD = yes
 VIA_ENABLE = yes
 VIAL_ENABLE = yes
 
-RGBLIGHT_ENABLE = yes       # Enable WS2812 RGB underglow (data on GP12).
-RGBLIGHT_DRIVER = ws2812
-WS2812_DI_PIN = GP12
+RGBLIGHT_ENABLE = yes       # Enable WS2812 RGB underglow (pin/driver from keyboard.json).
