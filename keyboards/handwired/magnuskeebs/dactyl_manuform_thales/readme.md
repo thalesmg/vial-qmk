@@ -106,9 +106,9 @@ For **each** half, in order:
 1. **Unplug the cable between the two halves.** Flash a half only while it is isolated.
 2. **Hold the inner-top key on that half, and -- while still holding it -- plug that half into
    the computer** (external USB-C port, not the inter-half connector). The key to hold is the
-   top-row key closest to the center of the board:
+   top-row key closest to the center of the board (left) and farthest (right):
    * Left half: hold **`5`**.
-   * Right half: hold **`6`**.
+   * Right half: hold **`~`**.
    (This is Bootmagic Lite: it checks that key at power-on and jumps straight to the
    bootloader -- no need to open the case.)
 3. A USB drive named **`RPI-RP2`** appears. Release the key and **drag
